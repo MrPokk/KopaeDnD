@@ -1,87 +1,118 @@
-import { CharacteristicsParser } from '../modules/parser/characteristics-parser';
-import '../styles/CharacterDisplay.css'; // Создадим отдельный CSS файл
+import '../styles/CharacterDisplay.css';
+import type { Character } from '../model/json/character-general';
 
 interface Props {
-    characterData: unknown;
-    characteristicsParser: CharacteristicsParser;
+    character: Character;
 }
 
-export default function CharacterDisplay({ characterData, characteristicsParser }: Props) {
-    if (!characterData) {
-        return <div className="character-display-empty">Загрузите файл персонажа</div>;
+export default function CharacterDisplay({ character }: Props) {
+    const { identity, specifications } = character;
+
+    if (!specifications) {
+        return <div className="character-display-empty">Данные персонажа не найдены</div>;
     }
 
-    const abilities = characteristicsParser.parseAbilities(characterData);
-    const skills = characteristicsParser.parseSkills(characterData);
+    const { abilities, skills, proficiencyBonus } = specifications;
 
-    // Группируем навыки по характеристикам
     const skillsByAbility = abilities.map(ability => ({
         ability,
-        skills: skills.filter(skill => skill.baseStat === ability.type)
+        skills: skills.filter(skill => skill.linkedAbility === ability.type)
     }));
 
     return (
         <div className="character-display">
-            {/* Заголовок */}
+            {/* Заголовок с информацией о персонаже */}
             <div className="character-header">
-                <h1>Персонаж D&D</h1>
+                <h1>{identity?.name || 'Неизвестный персонаж'}</h1>
+                {identity && (
+                    <div className="character-identity">
+                        <div className="identity-row">
+                            <span>Уровень {identity.level}</span>
+                            <span>{identity.race}</span>
+                            <span>{identity.charClass}</span>
+                            {identity.charSubclass && <span>{identity.charSubclass}</span>}
+                        </div>
+                        <div className="identity-row">
+                            <span>Игрок: {identity.playerName}</span>
+                            <span>{identity.background}</span>
+                            <span>{identity.alignment}</span>
+                        </div>
+                    </div>
+                )}
             </div>
 
             {/* Основные характеристики */}
             <div className="abilities-section">
-                <h2>Основные характеристики</h2>
+                <h2>Характеристики</h2>
                 <div className="abilities-grid">
                     {abilities.map(ability => (
                         <div key={ability.type} className="ability-card">
                             <div className="ability-header">
                                 <h3 className="ability-name">{ability.name}</h3>
                                 <div className="ability-score">
-                                    <span className="score-value">{ability.value}</span>
+                                    <span className="score-value">{ability.total}</span>
                                 </div>
                             </div>
                             <div className="ability-modifier">
                                 <span className="modifier-value">
-                                    {ability.modifiers.total >= 0 ? '+' : ''}{ability.modifiers.total}
+                                    {ability.modifier >= 0 ? '+' : ''}{ability.modifier}
                                 </span>
+                            </div>
+
+                            <div className="ability-check">
+                                <div className="check-label">ПРОВЕРКА</div>
+                                <div className="check-value">
+                                    {ability.check >= 0 ? '+' : ''}{ability.check}
+                                </div>
+                            </div>
+
+                            <div className="ability-save">
+                                <div className="save-label">
+                                    СПАСБРОСОК
+                                    {ability.isSaveProficient && ' ✓'}
+                                </div>
+                                <div className="save-value">
+                                    {ability.save >= 0 ? '+' : ''}{ability.save}
+                                </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* Навыки с группировкой по характеристикам */}
+            {/* Навыки */}
             <div className="skills-section">
                 <h2>Навыки</h2>
                 <div className="skills-grid">
                     {skillsByAbility.map(({ ability, skills: abilitySkills }) => (
-                        <div key={ability.type} className="skill-group">
-                            <div className="skill-group-header">
-                                <h3 className="ability-name">{ability.name}</h3>
-                                <div className="ability-modifier-small">
-                                    {ability.modifiers.total >= 0 ? '+' : ''}{ability.modifiers.total}
+                        abilitySkills.length > 0 && (
+                            <div key={ability.type} className="skill-group">
+                                <div className="skill-group-header">
+                                    <h3 className="ability-name">{ability.name}</h3>
+                                    <div className="ability-modifier-small">
+                                        {ability.modifier >= 0 ? '+' : ''}{ability.modifier}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="skills-list">
-                                {abilitySkills.map(skill => (
-                                    <div key={skill.name} className="skill-item">
-                                        <div className="skill-info">
-                                            <span className="skill-name">{skill.name}</span>
-                                            <div className="skill-proficiency">
-                                                {skill.proficiency === 2 ? '🟢' :
-                                                    skill.proficiency === 1 ? '🔵' : '⚪'}
+                                <div className="skills-list">
+                                    {abilitySkills.map(skill => (
+                                        <div key={skill.name} className="skill-item">
+                                            <div className="skill-info">
+                                                <span className="skill-name">{skill.name}</span>
+                                                <div className="skill-proficiency">
+                                                    {skill.proficiency === 2 ? '🟢' :
+                                                        skill.proficiency === 1 ? '🔵' : '⚪'}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="skill-value">
-                                            {skill.value !== undefined && (
+                                            <div className="skill-value">
                                                 <span className="skill-bonus">
                                                     {skill.value >= 0 ? '+' : ''}{skill.value}
                                                 </span>
-                                            )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        )
                     ))}
                 </div>
             </div>
@@ -90,8 +121,20 @@ export default function CharacterDisplay({ characterData, characteristicsParser 
             <div className="proficiency-section">
                 <div className="proficiency-card">
                     <h3>Бонус мастерства</h3>
-                    <div className="proficiency-value">+2</div>
+                    <div className="proficiency-value">
+                        {proficiencyBonus >= 0 ? '+' : ''}{proficiencyBonus}
+                    </div>
                 </div>
+            </div>
+
+            {/* Кнопка возврата */}
+            <div className="back-section">
+                <button
+                    className="back-button"
+                    onClick={() => window.location.reload()}
+                >
+                    Загрузить нового персонажа
+                </button>
             </div>
         </div>
     );

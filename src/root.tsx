@@ -1,60 +1,65 @@
 import { useState } from 'react';
+import { translationService, type Locale } from './modules/langs/translation-service';
+import { SpecificationsParser } from './modules/parser/specifications-parser';
+import { CharacterIdentityParser } from './modules/parser/character-identity-parser';
 import FileUpload from './components/FileUpload';
 import CharacterDisplay from './components/CharacterDisplay';
-import { createCharacteristicsParser } from './modules/parser/characteristics-parser';
-import { LanguageManager } from './modules/langs/language-manager';
 import './styles/App.css';
-import { LanguageCode } from './model/langs/language-types';
+import type { Character } from './model/json/character-general';
 
 function Root() {
-    const [characterData, setCharacterData] = useState<any>(null);
-    const [currentLanguage, setCurrentLanguage] = useState<LanguageCode>(LanguageCode.RUSSIAN);
+    const [character, setCharacter] = useState<Character | null>(null);
+    const [currentLocale, setCurrentLocale] = useState<Locale>('ru');
 
-    const languageManager = new LanguageManager();
-    languageManager.setLanguage(currentLanguage);
-    const characteristicsParser = createCharacteristicsParser(languageManager);
+    const specificationsParser = new SpecificationsParser();
+    const identityParser = new CharacterIdentityParser();
 
-    const handleFileLoad = (data: any) => {
-        setCharacterData(data);
+    const handleFileLoad = (data: unknown) => {
+        try {
+            const characterData: Character = {
+                identity: identityParser.parseCharacterIdentity(data),
+                specifications: specificationsParser.parseCharacterSpecifications(data)
+            };
+            setCharacter(characterData);
+        } catch (error) {
+            console.error('Error creating character:', error);
+            alert('Ошибка при создании персонажа');
+        }
     };
 
-    const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newLanguage = event.target.value as LanguageCode;
-        setCurrentLanguage(newLanguage);
-        languageManager.setLanguage(newLanguage);
+    const handleLocaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const newLocale = event.target.value as Locale;
+        setCurrentLocale(newLocale);
+        translationService.setLocale(newLocale);
     };
 
     return (
         <div className="app-container">
-            <div className="app-header">
-                <h1>D&D Character Sheet Viewer</h1>
+            <header className="app-header">
+                <h1>D&D Character Viewer</h1>
                 <div className="language-selector">
                     <label htmlFor="language-select">Язык:</label>
                     <select
                         id="language-select"
-                        value={currentLanguage}
-                        onChange={handleLanguageChange}
+                        value={currentLocale}
+                        onChange={handleLocaleChange}
                     >
-                        <option value={LanguageCode.RUSSIAN}>Русский</option>
-                        <option value={LanguageCode.ENGLISH}>English</option>
+                        <option value="ru">Русский</option>
+                        <option value="en">English</option>
                     </select>
                 </div>
-            </div>
-
-            <div className="main-content">
-                {!characterData && <FileUpload onFileLoad={handleFileLoad} />}
-
-                {characterData && (
-                    <CharacterDisplay
-                        characterData={characterData}
-                        characteristicsParser={characteristicsParser}
-                    />
+            </header>
+            <main className="main-content">
+                {!character ? (
+                    <FileUpload onFileLoad={handleFileLoad} />
+                ) : (
+                    <CharacterDisplay character={character} />
                 )}
-            </div>
+            </main>
 
-            <div className="app-footer">
-                <p>© 2024 D&D Character Sheet Viewer | Created with ❤️ for RPG enthusiasts</p>
-            </div>
+            <footer className="app-footer">
+                <p>D&D Character Viewer © 2024</p>
+            </footer>
         </div>
     );
 }

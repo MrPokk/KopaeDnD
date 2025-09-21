@@ -23,10 +23,18 @@ export default function FileUpload({ onFileLoad }: Props) {
                 onFileLoad(jsonData);
             } catch (error) {
                 console.error('Ошибка при чтении файла:', error);
-                alert('Неверный формат файла');
+                alert('Неверный формат файла. Убедитесь, что это корректный JSON файл персонажа D&D.');
             } finally {
                 setIsLoading(false);
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
             }
+        };
+
+        reader.onerror = () => {
+            setIsLoading(false);
+            alert('Ошибка при чтении файла');
         };
 
         reader.readAsText(file);
@@ -43,11 +51,14 @@ export default function FileUpload({ onFileLoad }: Props) {
             />
             <button
                 onClick={() => fileInputRef.current?.click()}
-                className={`upload-button ${isLoading ? 'loading' : ''}`}
+                className="upload-button"
                 disabled={isLoading}
             >
                 {isLoading ? 'Загрузка...' : 'Загрузить JSON персонажа'}
             </button>
+            <p className="upload-hint">
+                Загрузите JSON файл персонажа D&D для отображения характеристик
+            </p>
         </div>
     );
 }
