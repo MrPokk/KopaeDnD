@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import '../styles/FileUpload.css';
 
 interface Props {
@@ -7,12 +7,15 @@ interface Props {
 
 export default function FileUpload({ onFileLoad }: Props) {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
+        setIsLoading(true);
         const reader = new FileReader();
+
         reader.onload = (e) => {
             try {
                 const content = e.target?.result as string;
@@ -21,8 +24,11 @@ export default function FileUpload({ onFileLoad }: Props) {
             } catch (error) {
                 console.error('Ошибка при чтении файла:', error);
                 alert('Неверный формат файла');
+            } finally {
+                setIsLoading(false);
             }
         };
+
         reader.readAsText(file);
     };
 
@@ -37,9 +43,10 @@ export default function FileUpload({ onFileLoad }: Props) {
             />
             <button
                 onClick={() => fileInputRef.current?.click()}
-                className="upload-button"
+                className={`upload-button ${isLoading ? 'loading' : ''}`}
+                disabled={isLoading}
             >
-                Загрузить JSON персонажа
+                {isLoading ? 'Загрузка...' : 'Загрузить JSON персонажа'}
             </button>
         </div>
     );
