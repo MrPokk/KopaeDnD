@@ -1,0 +1,122 @@
+.character-sheet {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.basic-info {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    color: #666;
+}
+
+.basic-info span {
+    background: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.stats-section,
+.health-section {
+    margin-bottom: 30px;
+}
+
+.stats-section h2,
+.health-section h2 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    color: #444;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat {
+    text-align: center;
+    padding: 15px 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a76a8;
+}
+
+.stat-name {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.stat-modifier {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+.health-info {
+    display: flex;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.hp,
+.ac {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hp .value,
+.ac .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a76a8;
+}
+
+.hp .label,
+.ac .label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.reset-button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reset-button:hover {
+    background-color: #c0392b;
+}
