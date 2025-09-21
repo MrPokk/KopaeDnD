@@ -4,8 +4,8 @@ import { SpecificationsParser } from './modules/parser/specifications-parser';
 import { CharacterIdentityParser } from './modules/parser/character-identity-parser';
 import FileUpload from './components/FileUpload';
 import CharacterDisplay from './components/CharacterDisplay';
-import './styles/App.css';
 import type { Character } from './model/json/character-general';
+import './styles/App.css';
 
 function Root() {
     const [character, setCharacter] = useState<Character | null>(null);
@@ -17,7 +17,7 @@ function Root() {
     const handleFileLoad = (data: unknown) => {
         try {
             const characterData: Character = {
-                identity: identityParser.parseCharacterIdentity(data),
+                //  identity: identityParser.parseCharacterIdentity(data),
                 specifications: specificationsParser.parseCharacterSpecifications(data)
             };
             setCharacter(characterData);
@@ -36,18 +36,6 @@ function Root() {
     return (
         <div className="app-container">
             <header className="app-header">
-                <h1>D&D Character Viewer</h1>
-                <div className="language-selector">
-                    <label htmlFor="language-select">Язык:</label>
-                    <select
-                        id="language-select"
-                        value={currentLocale}
-                        onChange={handleLocaleChange}
-                    >
-                        <option value="ru">Русский</option>
-                        <option value="en">English</option>
-                    </select>
-                </div>
             </header>
             <main className="main-content">
                 {!character ? (
@@ -56,12 +44,22 @@ function Root() {
                     <CharacterDisplay character={character} />
                 )}
             </main>
-
-            <footer className="app-footer">
-                <p>D&D Character Viewer © 2024</p>
-            </footer>
         </div>
     );
+
+    function languageSelector() {
+        return <div className="language-selector">
+            <label htmlFor="language-select">Язык:</label>
+            <select
+                id="language-select"
+                value={currentLocale}
+                onChange={handleLocaleChange}
+            >
+                <option value="ru">Русский</option>
+                <option value="en">English</option>
+            </select>
+        </div>;
+    }
 }
 
 export default Root;
