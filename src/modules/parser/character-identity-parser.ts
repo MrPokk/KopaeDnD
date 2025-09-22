@@ -1,120 +1,97 @@
 import type { CharacterIdentity } from '../../model/json/character-identity-model';
 import { translationService } from '../langs/translation-service';
 
-const DEFAULT_LEVEL = 1;
-const DEFAULT_EXPERIENCE = 0;
-const DEFAULT_PROFICIENCY_BONUS = 2;
-const DEFAULT_INSPIRATION = false;
+const DEFAULTS = {
+    LEVEL: 1,
+    EXPERIENCE: 0,
+    PROFICIENCY_BONUS: 2,
+    INSPIRATION: false,
+    UNKNOWN_VALUE: translationService.getUIText("unknownData")
+} as const;
 
 export class CharacterIdentityParser {
-    public parseCharacterIdentity(characterData: any): CharacterIdentity | undefined {
+    public parseCharacterIdentity(characterData: unknown): CharacterIdentity {
         try {
-            const data = typeof characterData === 'string'
-                ? JSON.parse(characterData)
-                : characterData;
-
-            const actualData = data.data ? (typeof data.data === 'string' ? JSON.parse(data.data) : data.data) : data;
-
-            if (!actualData) return undefined;
-
-            return {
-                name: this.parseName(actualData),
-                playerName: this.parsePlayerName(actualData),
-                level: this.parseLevel(actualData),
-                race: this.parseRace(actualData),
-                charClass: this.parseClass(actualData),
-                charSubclass: this.parseSubclass(actualData),
-                background: this.parseBackground(actualData),
-                alignment: this.parseAlignment(actualData),
-                experience: this.parseExperience(actualData),
-                inspiration: this.parseInspiration(actualData),
-                proficiencyBonus: this.parseProficiencyBonus(actualData)
-            };
+            const data = this.normalizeData(characterData);
+            return this.buildCharacterIdentity(data);
         } catch (error) {
             console.error('Error parsing character identity:', error);
-            return undefined;
+            throw new Error('Invalid character data format');
         }
     }
 
-    private parseName(data: any): string {
-        if (data.name?.value) return data.name.value;
-        if (data.name) return data.name;
-        if (data.info?.name?.value) return data.info.name.value;
-        return translationService.getUIText("unknownCharacter");
+    private normalizeData(characterData: unknown): any {
+        const data = typeof characterData === 'string'
+            ? JSON.parse(characterData)
+            : characterData;
+
+        if (data?.data) {
+            return typeof data.data === 'string'
+                ? JSON.parse(data.data)
+                : data.data;
+        }
+
+        return data;
     }
 
-    private parsePlayerName(data: any): string {
-        if (data.playerName?.value) return data.playerName.value;
-        if (data.playerName) return data.playerName;
-        if (data.info?.playerName?.value) return data.info.playerName.value;
-        return translationService.getUIText("unknownPlayer");
+    private buildCharacterIdentity(data: any): CharacterIdentity {
+        return {
+            name: this.extractString(data, ['name.value', 'name', 'info.name.value']),
+            playerName: this.extractString(data, ['playerName.value', 'playerName', 'info.playerName.value']),
+            level: this.extractNumber(data, ['level.value', 'level', 'info.level.value'], DEFAULTS.LEVEL),
+            race: this.extractString(data, ['race.value', 'race', 'info.race.value']),
+            charClass: this.extractString(data, [
+                'class.value', 'class',
+                'info.charClass.value', 'charClass.value', 'charClass'
+            ]),
+            charSubclass: this.extractString(data, [
+                'subclass.value', 'subclass',
+                'info.charSubclass.value', 'charSubclass.value', 'charSubclass'
+            ]),
+            background: this.extractString(data, ['background.value', 'background', 'info.background.value']),
+            alignment: this.extractString(data, ['alignment.value', 'alignment', 'info.alignment.value']),
+            experience: this.extractNumber(data, [
+                'experience.value', 'experience', 'info.experience.value', 'xp', 'exp'
+            ], DEFAULTS.EXPERIENCE),
+            inspiration: this.extractBoolean(data, ['inspiration', 'hasInspiration'], DEFAULTS.INSPIRATION),
+            proficiencyBonus: this.extractNumber(data, [
+                'proficiency', 'proficiencyBonus', 'profBonus'
+            ], DEFAULTS.PROFICIENCY_BONUS)
+        };
     }
 
-    private parseLevel(data: any): number {
-        if (data.level?.value) return Number(data.level.value);
-        if (data.level) return Number(data.level);
-        if (data.info?.level?.value) return Number(data.info.level.value);
-        return DEFAULT_LEVEL;
+    private extractString(data: any, paths: string[]): string {
+        for (const path of paths) {
+            const value = this.getNestedValue(data, path);
+            if (value != null && value !== '') {
+                return String(value);
+            }
+        }
+        return DEFAULTS.UNKNOWN_VALUE;
     }
 
-    private parseRace(data: any): string {
-        if (data.race?.value) return data.race.value;
-        if (data.race) return data.race;
-        if (data.info?.race?.value) return data.info.race.value;
-        return translationService.getUIText("unknownRace");
+    private extractNumber(data: any, paths: string[], defaultValue: number): number {
+        for (const path of paths) {
+            const value = this.getNestedValue(data, path);
+            if (value != null && value !== '') {
+                const num = Number(value);
+                return isNaN(num) ? defaultValue : num;
+            }
+        }
+        return defaultValue;
     }
 
-    private parseClass(data: any): string {
-        if (data.class?.value) return data.class.value;
-        if (data.class) return data.class;
-        if (data.info?.charClass?.value) return data.info.charClass.value;
-        if (data.charClass?.value) return data.charClass.value;
-        if (data.charClass) return data.charClass;
-        return translationService.getUIText("unknownRace");
+    private extractBoolean(data: any, paths: string[], defaultValue: boolean): boolean {
+        for (const path of paths) {
+            const value = this.getNestedValue(data, path);
+            if (value !== undefined) {
+                return Boolean(value);
+            }
+        }
+        return defaultValue;
     }
 
-    private parseSubclass(data: any): string | undefined {
-        if (data.subclass?.value) return data.subclass.value;
-        if (data.subclass) return data.subclass;
-        if (data.info?.charSubclass?.value) return data.info.charSubclass.value;
-        if (data.charSubclass?.value) return data.charSubclass.value;
-        if (data.charSubclass) return data.charSubclass;
-        return undefined;
-    }
-
-    private parseBackground(data: any): string {
-        if (data.background?.value) return data.background.value;
-        if (data.background) return data.background;
-        if (data.info?.background?.value) return data.info.background.value;
-        return 'Неизвестное происхождение';
-    }
-
-    private parseAlignment(data: any): string {
-        if (data.alignment?.value) return data.alignment.value;
-        if (data.alignment) return data.alignment;
-        if (data.info?.alignment?.value) return data.info.alignment.value;
-        return translationService.getUIText("unknownAlignment");
-    }
-
-    private parseExperience(data: any): number {
-        if (data.experience?.value) return Number(data.experience.value);
-        if (data.experience) return Number(data.experience);
-        if (data.info?.experience?.value) return Number(data.info.experience.value);
-        if (data.xp) return Number(data.xp);
-        if (data.exp) return Number(data.exp);
-        return DEFAULT_EXPERIENCE;
-    }
-
-    private parseInspiration(data: any): boolean {
-        if (data.inspiration !== undefined) return Boolean(data.inspiration);
-        if (data.hasInspiration !== undefined) return Boolean(data.hasInspiration);
-        return DEFAULT_INSPIRATION;
-    }
-
-    private parseProficiencyBonus(data: any): number {
-        if (data.proficiency !== undefined) return Number(data.proficiency);
-        if (data.proficiencyBonus !== undefined) return Number(data.proficiencyBonus);
-        if (data.profBonus !== undefined) return Number(data.profBonus);
-        return DEFAULT_PROFICIENCY_BONUS;
+    private getNestedValue(obj: any, path: string): unknown {
+        return path.split('.').reduce((current, key) => current?.[key], obj);
     }
 }

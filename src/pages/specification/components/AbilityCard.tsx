@@ -1,4 +1,5 @@
-import type { Ability, Skill } from '../model/json/specifications-model';
+import type { Ability, Skill } from '../../../model/json/specifications-model';
+import { translationService } from '../../../modules/langs/translation-service';
 import SkillItem from './SkillItem';
 
 interface Props {
@@ -25,7 +26,7 @@ export default function AbilityCard({ ability, relatedSkills }: Props) {
                     </div>
 
                     <div className="ability-save-compact">
-                        <span className="save-label">Спасбросок</span>
+                        <span className="save-label">{translationService.getUIText("savingThrow")}</span>
                         <span className="save-value">
                             {ability.save >= 0 ? '+' : ''}{ability.save}
                             {ability.isSaveProficient && <span className="save-proficient"></span>}

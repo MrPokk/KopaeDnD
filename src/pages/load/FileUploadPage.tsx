@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
-import '../styles/FileUpload.css';
+import { translationService } from '../../modules/langs/translation-service';
+
+import '../../styles/FileUpload.css';
 
 interface Props {
     onFileLoad: (data: unknown) => void;
 }
 
-export default function FileUpload({ onFileLoad }: Props) {
+export default function FileUploadPage({ onFileLoad }: Props) {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -22,8 +24,8 @@ export default function FileUpload({ onFileLoad }: Props) {
                 const jsonData = JSON.parse(content);
                 onFileLoad(jsonData);
             } catch (error) {
-                console.error('Ошибка при чтении файла:', error);
-                alert('Неверный формат файла. Убедитесь, что это корректный JSON файл персонажа D&D.');
+                console.error(translationService.getUIText('fileReadError'), error);
+                alert(translationService.getUIText('invalidFileFormat'));
             } finally {
                 setIsLoading(false);
                 if (fileInputRef.current) {
@@ -34,7 +36,7 @@ export default function FileUpload({ onFileLoad }: Props) {
 
         reader.onerror = () => {
             setIsLoading(false);
-            alert('Ошибка при чтении файла');
+            alert(translationService.getUIText('fileReadError'));
         };
 
         reader.readAsText(file);
@@ -54,10 +56,10 @@ export default function FileUpload({ onFileLoad }: Props) {
                 className="upload-button"
                 disabled={isLoading}
             >
-                {isLoading ? 'Загрузка...' : 'Загрузить JSON персонажа'}
+                {isLoading ? translationService.getUIText('loading') : translationService.getUIText('loadCharacterJson')}
             </button>
             <p className="upload-hint">
-                Загрузите JSON файл персонажа D&D для отображения характеристик
+                {translationService.getUIText('uploadCharacterJson')}
             </p>
         </div>
     );

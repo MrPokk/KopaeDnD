@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { translationService, type Locale } from './modules/langs/translation-service';
 import { SpecificationsParser } from './modules/parser/specifications-parser';
 import { CharacterIdentityParser } from './modules/parser/character-identity-parser';
-import FileUpload from './components/FileUpload';
-import CharacterDisplay from './components/CharacterDisplay';
 import type { Character } from './model/json/character-general';
+import FileUploadPage from './pages/load/FileUploadPage';
+import SpecificationPage from './pages/specification/SpecificationPage';
+
 import './styles/App.css';
+
 
 function Root() {
     const [character, setCharacter] = useState<Character | null>(null);
@@ -17,7 +19,7 @@ function Root() {
     const handleFileLoad = (data: unknown) => {
         try {
             const characterData: Character = {
-                //  identity: identityParser.parseCharacterIdentity(data),
+                identity: identityParser.parseCharacterIdentity(data),
                 specifications: specificationsParser.parseCharacterSpecifications(data)
             };
             setCharacter(characterData);
@@ -33,20 +35,6 @@ function Root() {
         translationService.setLocale(newLocale);
     };
 
-    return (
-        <div className="app-container">
-            <header className="app-header">
-            </header>
-            <main className="main-content">
-                {!character ? (
-                    <FileUpload onFileLoad={handleFileLoad} />
-                ) : (
-                    <CharacterDisplay character={character} />
-                )}
-            </main>
-        </div>
-    );
-
     function languageSelector() {
         return <div className="language-selector">
             <label htmlFor="language-select">Язык:</label>
@@ -60,6 +48,24 @@ function Root() {
             </select>
         </div>;
     }
+
+    return (
+        <div className="app-container">
+            <header className="app-header">
+                {languageSelector()}
+            </header>
+            <main className="main-content">
+
+                {!character ? (
+                    <FileUploadPage onFileLoad={handleFileLoad} />
+                ) : (
+                    <SpecificationPage character={character} />
+                )}
+            </main>
+        </div>
+    );
+
+
 }
 
 export default Root;

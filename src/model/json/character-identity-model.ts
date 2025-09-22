@@ -4,7 +4,7 @@ export interface CharacterIdentity {
     level: number;
     race: string;
     charClass: string;
-    charSubclass?: string;
+    charSubclass: string;
     background: string;
     alignment: string;
     experience: number;

@@ -1,4 +1,4 @@
-import type { Skill } from "../model/json/specifications-model";
+import type { Skill } from "../../../model/json/specifications-model";
 
 interface Props {
     skill: Skill;

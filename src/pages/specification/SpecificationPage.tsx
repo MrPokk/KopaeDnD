@@ -1,19 +1,23 @@
-import type { Character } from '../model/json/character-general';
-import '../styles/CharacterDisplay.css';
-import AbilityCard from './AbilityCard';
-import BackButton from './BackButton';
-import CharacterHeader from './CharacterHeader';
-import ProficiencyBonus from './ProficiencyBonus';
+
+
+import type { Character } from '../../model/json/character-general';
+import { translationService } from '../../modules/langs/translation-service';
+import AbilityCard from './components/AbilityCard';
+import BackButton from './components/BackButton';
+import CharacterHeader from './components/CharacterHeader';
+import ProficiencyBonus from './components/ProficiencyBonus';
+
+import '../../styles/SpecificationPage.css';
 
 interface Props {
     character: Character;
 }
 
-export default function CharacterDisplay({ character }: Props) {
+export default function SpecificationPage({ character }: Props) {
     const { identity, specifications } = character;
 
     if (!specifications) {
-        return <div className="character-display-empty">Данные персонажа не найдены</div>;
+        return <div className="character-display-empty">{translationService.getUIText("unknownCharacter")}</div>;
     }
 
     const { abilities, skills, proficiencyBonus } = specifications;
@@ -23,7 +27,7 @@ export default function CharacterDisplay({ character }: Props) {
             <CharacterHeader identity={identity} />
 
             <div className="abilities-with-skills-section">
-                <h2>Характеристики</h2>
+                <h2>{translationService.getUIText("specificationsCharacter")}</h2>
                 <div className="abilities-with-skills-grid">
                     {abilities.map(ability => {
                         const relatedSkills = skills.filter(skill => skill.linkedAbility === ability.type);

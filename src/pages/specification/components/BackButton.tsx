@@ -1,3 +1,5 @@
+import { translationService } from "../../../modules/langs/translation-service";
+
 export default function BackButton() {
     return (
         <div className="back-section">
@@ -5,7 +7,7 @@ export default function BackButton() {
                 className="back-button"
                 onClick={() => window.location.reload()}
             >
-                Загрузить нового персонажа
+                {translationService.getUIText("loadCharacter")}
             </button>
         </div>
     );

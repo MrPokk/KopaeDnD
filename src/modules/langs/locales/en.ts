@@ -31,10 +31,17 @@ export const EN_TRANSLATIONS = {
     },
     ui: {
         unknownCharacter: 'Unknown Character',
-        unknownPlayer: 'Unknown Player',
-        unknownRace: 'Unknown Race',
-        unknownClass: 'Unknown Class',
-        unknownBackground: 'Unknown Background',
-        unknownAlignment: 'Unknown Alignment'
+        unknownData: 'Unknown',
+        loadCharacter: 'Load Character',
+        specificationsCharacter: 'Character Specifications',
+        classCharacter: 'Class',
+        proficiencyBonus: 'Bonuses master',
+        savingThrow: 'Saving throw',
+        loadCharacterJson: 'Load Character JSON',
+        uploadCharacterJson: 'Upload a D&D character JSON file to display specifications',
+        loading: 'Loading...',
+        invalidFileFormat: 'Invalid file format. Please make sure it is a valid D&D character JSON file.',
+        fileReadError: 'Error reading file',
+
     }
 } as const;

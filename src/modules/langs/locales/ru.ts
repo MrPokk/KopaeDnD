@@ -31,10 +31,16 @@ export const RU_TRANSLATIONS = {
     },
     ui: {
         unknownCharacter: 'Неизвестный персонаж',
-        unknownPlayer: 'Неизвестный игрок',
-        unknownRace: 'Неизвестная раса',
-        unknownClass: 'Неизвестный класс',
-        unknownBackground: 'Неизвестное происхождение',
-        unknownAlignment: 'Неизвестное мировоззрение'
+        unknownData: 'Неизвестно',
+        loadCharacter: 'Загрузить персонажа',
+        specificationsCharacter: 'Характеристики',
+        classCharacter: 'Класс',
+        proficiencyBonus: 'Бонусы мастерства',
+        savingThrow: 'Спасбросок',
+        loadCharacterJson: 'Загрузить JSON персонажа',
+        uploadCharacterJson: 'Загрузите JSON файл персонажа D&D для отображения характеристик',
+        loading: 'Загрузка...',
+        invalidFileFormat: 'Неверный формат файла. Убедитесь, что это корректный JSON файл персонажа D&D.',
+        fileReadError: 'Ошибка при чтении файла'
     }
 } as const;
