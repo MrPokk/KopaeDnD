@@ -5,9 +5,11 @@ import { CharacterIdentityParser } from './modules/parser/character-identity-par
 import type { Character } from './model/json/character-general';
 import FileUploadPage from './pages/load/FileUploadPage';
 import SpecificationPage from './pages/specification/SpecificationPage';
+import LanguageSelector from './components/LanguageSelector';
 
 import './styles/App.css';
-
+import './styles/extra/variables.css';
+import './styles/extra/reset.css';
 
 function Root() {
     const [character, setCharacter] = useState<Character | null>(null);
@@ -29,33 +31,20 @@ function Root() {
         }
     };
 
-    const handleLocaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newLocale = event.target.value as Locale;
+    const handleLocaleChange = (newLocale: Locale) => {
         setCurrentLocale(newLocale);
         translationService.setLocale(newLocale);
     };
 
-    function languageSelector() {
-        return <div className="language-selector">
-            <label htmlFor="language-select">Язык:</label>
-            <select
-                id="language-select"
-                value={currentLocale}
-                onChange={handleLocaleChange}
-            >
-                <option value="ru">Русский</option>
-                <option value="en">English</option>
-            </select>
-        </div>;
-    }
-
     return (
         <div className="app-container">
             <header className="app-header">
-                {languageSelector()}
+                <LanguageSelector
+                    currentLocale={currentLocale}
+                    onLocaleChange={handleLocaleChange}
+                />
             </header>
             <main className="main-content">
-
                 {!character ? (
                     <FileUploadPage onFileLoad={handleFileLoad} />
                 ) : (
@@ -64,8 +53,6 @@ function Root() {
             </main>
         </div>
     );
-
-
 }
 
 export default Root;

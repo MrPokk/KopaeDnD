@@ -35,12 +35,15 @@ export const RU_TRANSLATIONS = {
         loadCharacter: 'Загрузить персонажа',
         specificationsCharacter: 'Характеристики',
         classCharacter: 'Класс',
+        abilityCheck: 'Проверка',
         proficiencyBonus: 'Бонусы мастерства',
         savingThrow: 'Спасбросок',
         loadCharacterJson: 'Загрузить JSON персонажа',
         uploadCharacterJson: 'Загрузите JSON файл персонажа D&D для отображения характеристик',
         loading: 'Загрузка...',
         invalidFileFormat: 'Неверный формат файла. Убедитесь, что это корректный JSON файл персонажа D&D.',
-        fileReadError: 'Ошибка при чтении файла'
+        fileReadError: 'Ошибка при чтении файла',
+
+        language: 'Язык',
     }
 } as const;

@@ -5,6 +5,10 @@ interface Props {
 }
 
 export default function SkillItem({ skill }: Props) {
+    const handleValueClick = (value: number, label: string) => {
+        console.log(`${label}: ${value}`);
+    };
+
     return (
         <div className="skill-item-compact">
             <div className="skill-info">
@@ -13,11 +17,12 @@ export default function SkillItem({ skill }: Props) {
                     skill.proficiency === 1 ? 'skill-proficiency-half' : 'skill-proficiency-none'
                     }`}></div>
             </div>
-            <div className="skill-value">
-                <span className="skill-bonus">
-                    {skill.value >= 0 ? '+' : ''}{skill.value}
-                </span>
-            </div>
+            <button
+                className="skill-value"
+                onClick={() => handleValueClick(skill.value, `${skill.name} Skill`)}
+            >
+                {skill.value >= 0 ? '+' : ''}{skill.value}
+            </button>
         </div>
     );
 }

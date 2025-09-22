@@ -8,30 +8,37 @@ interface Props {
 }
 
 export default function AbilityCard({ ability, relatedSkills }: Props) {
+    const handleValueClick = (value: number, label: string) => {
+        console.log(`${label}: ${value}`);
+    };
+
     return (
         <div className="ability-with-skills-card">
-            <div className="ability-compact">
-                <div className="ability-name-row">
-                    <h3 className="ability-name">{ability.name}</h3>
-                    <div className="ability-modifier-right">
-                        <span className="modifier-value">
-                            {ability.modifier >= 0 ? '+' : ''}{ability.modifier}
-                        </span>
-                    </div>
+            <div className="ability-header">
+                <h3 className="ability-name">{ability.name}</h3>
+                <span className="ability-base-value">{ability.total}</span>
+            </div>
+
+            <div className="ability-checks">
+                <div className="ability-check">
+                    <span className="check-label">{translationService.getUIText("abilityCheck")}</span>
+                    <button
+                        className="value-button check-value"
+                        onClick={() => handleValueClick(ability.modifier, `${ability.name} Check`)}
+                    >
+                        {ability.modifier >= 0 ? '+' : ''}{ability.modifier}
+                    </button>
                 </div>
+                <div className="ability-check">
+                    {ability.isSaveProficient ? <div className={"skill-proficiency skill-proficiency-half"}></div> : null}
+                    <span className="check-label">{translationService.getUIText("savingThrow")}</span>
+                    <button
+                        className="value-button check-value"
+                        onClick={() => handleValueClick(ability.save, `${ability.name} Saving Throw`)}
+                    >
+                        {ability.save >= 0 ? '+' : ''}{ability.save}
 
-                <div className="ability-details">
-                    <div className="ability-score-value">
-                        <span className="score-value">{ability.total}</span>
-                    </div>
-
-                    <div className="ability-save-compact">
-                        <span className="save-label">{translationService.getUIText("savingThrow")}</span>
-                        <span className="save-value">
-                            {ability.save >= 0 ? '+' : ''}{ability.save}
-                            {ability.isSaveProficient && <span className="save-proficient"></span>}
-                        </span>
-                    </div>
+                    </button>
                 </div>
             </div>
 

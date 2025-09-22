@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { translationService } from '../../modules/langs/translation-service';
 
-import '../../styles/FileUpload.css';
+import '../../styles/FileUploadPage.css';
 
 interface Props {
     onFileLoad: (data: unknown) => void;

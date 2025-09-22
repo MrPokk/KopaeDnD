@@ -35,6 +35,7 @@ export const EN_TRANSLATIONS = {
         loadCharacter: 'Load Character',
         specificationsCharacter: 'Character Specifications',
         classCharacter: 'Class',
+        abilityCheck: 'Check',
         proficiencyBonus: 'Bonuses master',
         savingThrow: 'Saving throw',
         loadCharacterJson: 'Load Character JSON',
@@ -43,5 +44,6 @@ export const EN_TRANSLATIONS = {
         invalidFileFormat: 'Invalid file format. Please make sure it is a valid D&D character JSON file.',
         fileReadError: 'Error reading file',
 
+        language: 'Language'
     }
 } as const;
