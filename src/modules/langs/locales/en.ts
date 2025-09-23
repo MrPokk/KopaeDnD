@@ -34,7 +34,7 @@ export const EN_TRANSLATIONS = {
         unknownData: 'Unknown',
         loadCharacter: 'Load Character',
         specificationsCharacter: 'Character Specifications',
-        classCharacter: 'Class',
+        levelCharacter: 'Level',
         abilityCheck: 'Check',
         proficiencyBonus: 'Bonus master',
         savingThrow: 'Saving throw',

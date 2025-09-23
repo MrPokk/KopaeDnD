@@ -34,7 +34,7 @@ export const RU_TRANSLATIONS = {
         unknownData: 'Неизвестно',
         loadCharacter: 'Загрузить персонажа',
         specificationsCharacter: 'Характеристики',
-        classCharacter: 'Класс',
+        levelCharacter: 'Уровень',
         abilityCheck: 'Проверка',
         proficiencyBonus: 'Бонус мастерства',
         savingThrow: 'Спасбросок',

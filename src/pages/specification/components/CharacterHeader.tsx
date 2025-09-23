@@ -27,7 +27,7 @@ export default function CharacterHeader({ identity }: Props) {
             <div className={`character-identity ${isCollapsed ? 'collapsed' : ''}`}>
                 <div className="identity-row">
                     <span className="highlight-text">
-                        {translationService.getUIText("classCharacter")} {identity.level}
+                        {translationService.getUIText("levelCharacter")} {identity.level}
                     </span>
                     <span className="highlight-text">{identity.race}</span>
                     <span className="highlight-text">{identity.charClass}</span>
