@@ -36,7 +36,7 @@ export const EN_TRANSLATIONS = {
         specificationsCharacter: 'Character Specifications',
         classCharacter: 'Class',
         abilityCheck: 'Check',
-        proficiencyBonus: 'Bonuses master',
+        proficiencyBonus: 'Bonus master',
         savingThrow: 'Saving throw',
         loadCharacterJson: 'Load Character JSON',
         uploadCharacterJson: 'Upload a D&D character JSON file to display specifications',

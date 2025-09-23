@@ -36,7 +36,7 @@ export const RU_TRANSLATIONS = {
         specificationsCharacter: 'Характеристики',
         classCharacter: 'Класс',
         abilityCheck: 'Проверка',
-        proficiencyBonus: 'Бонусы мастерства',
+        proficiencyBonus: 'Бонус мастерства',
         savingThrow: 'Спасбросок',
         loadCharacterJson: 'Загрузить JSON персонажа',
         uploadCharacterJson: 'Загрузите JSON файл персонажа D&D для отображения характеристик',

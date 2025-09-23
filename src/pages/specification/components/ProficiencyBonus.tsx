@@ -18,7 +18,7 @@ export default function ProficiencyBonus({ proficiencyBonus }: Props) {
                 <h3>{translationService.getUIText("proficiencyBonus")}</h3>
                 <button
                     className="value-button proficiency-value"
-                    onClick={() => handleValueClick(proficiencyBonus, "Proficiency Bonus")}
+                    onClick={() => handleValueClick(proficiencyBonus, translationService.getUIText("proficiencyBonus"))}
                 >
                     {proficiencyBonus >= 0 ? '+' : ''}{proficiencyBonus}
                 </button>
