@@ -1,10 +1,10 @@
 {
-    "name": "KopaedDnD",
+    "name": "KopaeDnD",
     "version": "2.0.0",
     "manifest_version": 1,
     "author": "Kirill",
-    "homepage_url": "https://github.com/OnePointSeven/kopaed-dnd",
-    "icon": "/logo.svg",
+    "homepage_url": "https://github.com/MrPokk/KopaeDnD",
+    "icon": "/logo.png",
     "description": "Convenient use of JSON from the 'Long Story Short'",
     "action": {
         "title": "LSS Character Sheet",
