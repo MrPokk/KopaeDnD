@@ -112,6 +112,24 @@
     }
 }
 
+.popover-content-wrapper {
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .popover-content-wrapper {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .popover-content-wrapper {
+        padding: 12px;
+    }
+}
+
 @media (max-width: 480px) {
     .app-header {
         padding: var(--spacing-lg);

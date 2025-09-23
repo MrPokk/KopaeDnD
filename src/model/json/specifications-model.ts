@@ -40,6 +40,7 @@ export interface Ability {
 
 export interface Skill {
     name: string;
+    type: SkillKey;
     linkedAbility: AbilityType;
     proficiency: SkillProficiency;
     value: number;
@@ -74,4 +75,31 @@ export const mapBaseStatToAbilityType = (baseStat: string): AbilityType => {
     };
 
     return mapping[baseStat] || AbilityType.INTELLIGENCE;
+};
+
+export const mapSkillKey = (skillKey: string): SkillKey => {
+    const mapping: { [key: string]: SkillKey } = {
+        'acrobatics': SkillKey.ACROBATICS,
+        'investigation': SkillKey.INVESTIGATION,
+        'athletics': SkillKey.ATHLETICS,
+        'perception': SkillKey.PERCEPTION,
+        'survival': SkillKey.SURVIVAL,
+        'performance': SkillKey.PERFORMANCE,
+        'intimidation': SkillKey.INTIMIDATION,
+        'history': SkillKey.HISTORY,
+        'sleight of hand': SkillKey.SLEIGHT_OF_HAND,
+        'sleight_of_hand': SkillKey.SLEIGHT_OF_HAND,
+        'arcana': SkillKey.ARCANA,
+        'medicine': SkillKey.MEDICINE,
+        'deception': SkillKey.DECEPTION,
+        'nature': SkillKey.NATURE,
+        'insight': SkillKey.INSIGHT,
+        'religion': SkillKey.RELIGION,
+        'stealth': SkillKey.STEALTH,
+        'persuasion': SkillKey.PERSUASION,
+        'animal handling': SkillKey.ANIMAL_HANDLING,
+        'animal_handling': SkillKey.ANIMAL_HANDLING
+    };
+
+    return mapping[skillKey.toLowerCase()] || SkillKey.ACROBATICS;
 };

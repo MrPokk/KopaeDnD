@@ -1,3 +1,4 @@
+import { useRolling } from "../../../hooks/useRolling";
 import { translationService } from "../../../modules/langs/translation-service";
 
 interface Props {
@@ -5,8 +6,10 @@ interface Props {
 }
 
 export default function ProficiencyBonus({ proficiencyBonus }: Props) {
+    const { rollDice } = useRolling();
+
     const handleValueClick = (value: number, label: string) => {
-        console.log(`${label}: ${value}`);
+        rollDice(value, label);
     };
 
     return (

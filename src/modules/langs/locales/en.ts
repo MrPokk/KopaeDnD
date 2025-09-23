@@ -44,6 +44,9 @@ export const EN_TRANSLATIONS = {
         invalidFileFormat: 'Invalid file format. Please make sure it is a valid D&D character JSON file.',
         fileReadError: 'Error reading file',
 
+        playerRoll: "Player",
+        playerRollTotal: "Total",
+
         language: 'Language'
     }
 } as const;

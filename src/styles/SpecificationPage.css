@@ -222,11 +222,12 @@
 
 .ability-check {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 4px;
     flex: 1;
     margin: 0 0.5rem;
+    justify-content: space-between;
 }
 
 .check-label {
@@ -471,7 +472,6 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-
     }
 
     .check-label {

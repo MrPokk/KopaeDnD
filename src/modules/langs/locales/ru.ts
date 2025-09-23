@@ -44,6 +44,9 @@ export const RU_TRANSLATIONS = {
         invalidFileFormat: 'Неверный формат файла. Убедитесь, что это корректный JSON файл персонажа D&D.',
         fileReadError: 'Ошибка при чтении файла',
 
+        playerRoll: "Игрок",
+        playerRollTotal: "Итог",
+
         language: 'Язык',
     }
 } as const;

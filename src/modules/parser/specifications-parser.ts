@@ -1,6 +1,7 @@
 import {
     AbilityType,
     mapBaseStatToAbilityType,
+    mapSkillKey,
     SkillKey,
     SkillProficiency,
     type Ability,
@@ -82,10 +83,21 @@ export class SpecificationsParser {
         const { skills: skillsData, stats } = data;
         if (!skillsData || !stats) return [];
 
-        return Object.values(SkillKey)
-            .filter(skillKey => skillsData[skillKey])
-            .map(skillKey => this.buildSkill(skillKey, skillsData[skillKey], stats, proficiencyBonus));
+        const skills: Skill[] = [];
+
+        Object.keys(skillsData).forEach(skillKey => {
+            try {
+                const mappedSkillKey = mapSkillKey(skillKey);
+                const skill = this.buildSkill(mappedSkillKey, skillsData[skillKey], stats, proficiencyBonus);
+                skills.push(skill);
+            } catch (error) {
+                console.warn(`Failed to parse skill ${skillKey}:`, error);
+            }
+        });
+
+        return skills.sort((a, b) => a.name.localeCompare(b.name));
     }
+
 
     private buildSkill(skillKey: SkillKey, skillData: any, stats: any, proficiencyBonus: number): Skill {
         const proficiencyLevel = skillData.isProf ?? CONSTANTS.PROFICIENCY_LEVELS.NONE;
@@ -98,12 +110,14 @@ export class SpecificationsParser {
         const skillBonus = this.calculateSkillBonus(proficiency, proficiencyBonus);
 
         return {
+            type: skillKey,
             name: translationService.getSkillName(skillKey),
             linkedAbility,
             proficiency,
             value: abilityModifier + skillBonus
         };
     }
+
 
     private parseSaves(data: any): SaveProficiency[] {
         const savesData = data.saves;
