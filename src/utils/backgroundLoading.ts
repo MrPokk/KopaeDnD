@@ -1,7 +1,7 @@
 import OBR from "@owlbear-rodeo/sdk";
 import { getPluginId } from "./getPluginId";
 
-export function backgroundPopover() {
+export function backgroundLoading() {
     OBR.onReady(() => {
         OBR.popover.open({
             id: getPluginId("popover"),

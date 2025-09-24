@@ -2,8 +2,9 @@ import AppHeader from "./components/AppHeader";
 import AppMain from "./components/AppMain";
 import { useAppState } from "./hooks/useAppState";
 import { useCharacterParser } from "./hooks/useCharacterParser";
-import { backgroundPopover } from "./utils/backgroundPopover";
 import { translationService } from "./modules/langs/translation-service";
+import { backgroundLoading } from "./utils/backgroundLoading";
+
 
 import './styles/App.css';
 import './styles/extra/variables.css';
@@ -21,7 +22,7 @@ function Root() {
     const { handleFileLoad } = useCharacterParser(handleCharacterLoaded);
 
     translationService.setLocale(currentLocale);
-    backgroundPopover();
+    backgroundLoading();
 
     return (
         <div className="app-container">
