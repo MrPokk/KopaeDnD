@@ -12,3 +12,5 @@ dist
 .eslintcache
 Dockerfile
 docker-compose.yml
+eslint.config.js
+eslint.config.ts

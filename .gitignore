@@ -7,6 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+deploy.sh
+.dockerignore
+Dockerfile
+eslint.config.js
+eslint.config.ts
+nginx.conf
 node_modules
 dist
 dist-ssr
