@@ -13,14 +13,18 @@ export function useOwlbearReady() {
 
         if (OBR.isReady) {
             setIsReady(true);
-        } else {
-            const readyHandler = () => setIsReady(true);
-            OBR.onReady(readyHandler);
-
-            return () => {
-                OBR.onReady(() => { });
-            };
+            return;
         }
+
+        const handleReady = () => {
+            setIsReady(true);
+        };
+
+        OBR.onReady(handleReady);
+
+        return () => {
+            OBR.onReady(() => { });
+        };
     }, []);
 
     return { isAvailable, isReady };

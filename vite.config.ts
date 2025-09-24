@@ -9,4 +9,15 @@ export default defineConfig({
             origin: "https://www.owlbear.rodeo",
         },
     },
+    build: {
+        rollupOptions: {
+            input: {
+                main: './index.html',
+                popover: './popover.html'
+            }
+        },
+        outDir: 'dist',
+        assetsDir: 'assets'
+    },
+    base: './'
 })
