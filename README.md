@@ -1,24 +1,36 @@
-**KopaeDnD**
+# KopaeDnD
 
-An extension for *Owlbear Rodeo* that provides a convenient interface for viewing character stats and rolling dice.
+## Overview
+KopaeDnD is an Owlbear Rodeo extension that allows you to view character stats from the *long story short* format.
 
-**✨ Features**
 
-- 📊 Character Stats Viewing: Import JSON character data and view it in a convenient *"long story short"* format
 
-- 🎲 Dice Rolling: Built-in rolling mechanism with automatic modifier calculations
+### Main functions
 
-- ⚡ Automatic Calculations: The system automatically takes character modifiers into account when rolling
+- **Importing character data from JSON**  
+  Allows you to upload data in the *long story short* JSON format.
 
-**📖 Usage**
+- **View stats and skills**  
+  A user-friendly interface for displaying all the characteristics and skills of a character with quick access.
 
-Importing Characters
+- **Dice rolls based on characteristics**  
+  The user can make throws (for example, d20 + feature modifier) directly from the expansion interface, automatically taking into account the values of the features.
 
-1. Prepare a JSON file with character stats
-2. Import the file through the extension interface
-3. All stats will be automatically formatted and ready to use
 
-Rolling Dice
 
-· Select the desired skill or attribute
-· Click the roll button - the system will automatically calculate the result taking modifiers into account
+## To developers
+
+- **React + Vite**  
+  Using React for UI and Vite to build a project ensures fast development and assembly.
+
+- **Project structure**  
+  - `src/` — component sources, logic, and styles.
+  - `hooks/` — custom hooks for working with data and state.
+  - `components/` — React components for the interface.
+  - `utils/` — auxiliary functions (for example, for calculating throws and converting data).
+
+
+
+## License
+
+GNU GPLv3
