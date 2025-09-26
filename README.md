@@ -1,14 +1,16 @@
-KopaeDnD
+**KopaeDnD**
 
-An extension for Owlbear Rodeo that provides a convenient interface for viewing character stats and rolling dice.
+An extension for *Owlbear Rodeo* that provides a convenient interface for viewing character stats and rolling dice.
 
-✨ Features
+**✨ Features**
 
-· 📊 Character Stats Viewing: Import JSON character data and view it in a convenient "long story short" format
-· 🎲 Dice Rolling: Built-in rolling mechanism with automatic modifier calculations
-· ⚡ Automatic Calculations: The system automatically takes character modifiers into account when rolling
+- 📊 Character Stats Viewing: Import JSON character data and view it in a convenient *"long story short"* format
 
-📖 Usage
+- 🎲 Dice Rolling: Built-in rolling mechanism with automatic modifier calculations
+
+- ⚡ Automatic Calculations: The system automatically takes character modifiers into account when rolling
+
+**📖 Usage**
 
 Importing Characters
 
