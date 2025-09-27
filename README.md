@@ -3,7 +3,7 @@
 ## Overview
 KopaeDnD is an Owlbear Rodeo extension that allows you to view character stats from the *long story short* format.
 
-
+![Example](/docs/header.png)
 
 ### Main functions
 
