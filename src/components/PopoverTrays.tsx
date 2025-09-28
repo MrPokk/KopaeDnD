@@ -27,6 +27,8 @@ function setPopover(width: number, height: number) {
 export default function PopoverTrays() {
     const [rollData, setRollData] = useState<RollData | null>(null);
     const timeoutRef = useRef<number | null>(null);
+    const rollQueueRef = useRef<RollData[]>([]);
+    const isProcessingRef = useRef(false);
 
     const { isAvailable, isReady } = useOwlbearReady();
 
@@ -38,21 +40,42 @@ export default function PopoverTrays() {
         };
     }, []);
 
-    const handleRoll = useCallback((rollData: RollData) => {
-        if (!isAvailable || !isReady) return;
+    const processRollQueue = useCallback(() => {
+        if (rollQueueRef.current.length === 0) {
+            isProcessingRef.current = false;
+            return;
+        }
+
+        isProcessingRef.current = true;
 
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
         }
 
-        setRollData(rollData);
+        const nextRoll = rollQueueRef.current.shift()!;
+        setRollData(nextRoll);
         setPopover(POPOVER_SETTINGS.OPEN.WIDTH, POPOVER_SETTINGS.OPEN.HEIGHT);
 
         timeoutRef.current = window.setTimeout(() => {
             setPopover(POPOVER_SETTINGS.CLOSE.WIDTH, POPOVER_SETTINGS.CLOSE.HEIGHT);
-            setRollData(null);
+
+            setTimeout(() => {
+                setRollData(null);
+                processRollQueue();
+            }, 300);
         }, POPOVER_SETTINGS.AUTO_CLOSE_DELAY);
-    }, [isAvailable, isReady]);
+    }, []);
+
+    const handleRoll = useCallback((rollData: RollData) => {
+        if (!isAvailable || !isReady) return;
+
+        rollQueueRef.current.push(rollData);
+
+        if (!isProcessingRef.current) {
+            processRollQueue();
+        }
+    }, [isAvailable, isReady, processRollQueue]);
 
     useRollListener(handleRoll);
 

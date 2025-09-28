@@ -81,6 +81,26 @@
     text-align: right;
 }
 
+.popover-trays {
+    transition: all 0.3s ease-in-out;
+}
+
+.roll-result-card {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Анимации */
 @keyframes slideInRight {
     from {
