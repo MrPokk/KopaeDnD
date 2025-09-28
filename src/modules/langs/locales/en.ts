@@ -36,7 +36,7 @@ export const EN_TRANSLATIONS = {
         specificationsCharacter: 'Character Specifications',
         levelCharacter: 'Level',
         abilityCheck: 'Check',
-        proficiencyBonus: 'Bonus master',
+        proficiencyBonus: 'Proficiency Bonus',
         savingThrow: 'Saving throw',
         loadCharacterJson: 'Load Character JSON',
         uploadCharacterJson: 'Upload a D&D character JSON file to display specifications',
@@ -47,6 +47,11 @@ export const EN_TRANSLATIONS = {
         playerRoll: "Player",
         playerRollTotal: "Total",
 
-        language: 'Language'
+        language: 'Language',
+
+        // Добавляем переводы для заклинательной характеристики
+        spellCasting: 'Spellcasting',
+        spellSaveDC: 'Spell Save DC',
+        spellAttackBonus: 'Spell Attack Bonus'
     }
 } as const;

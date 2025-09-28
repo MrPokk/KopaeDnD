@@ -34,7 +34,8 @@ export class SpecificationsParser {
                 abilities: this.parseAbilities(data, proficiencyBonus),
                 skills: this.parseSkills(data, proficiencyBonus),
                 saves: this.parseSaves(data),
-                proficiencyBonus
+                proficiencyBonus,
+                spellCasting: this.parseSpellCasting(data, proficiencyBonus)
             };
         } catch (error) {
             console.error('Error parsing character specifications:', error);
@@ -46,6 +47,27 @@ export class SpecificationsParser {
         return typeof characterData.data === 'string'
             ? JSON.parse(characterData.data)
             : characterData.data;
+    }
+
+    private parseSpellCasting(data: any, proficiencyBonus: number) {
+        const spellsInfo = data.spellsInfo;
+        if (!spellsInfo?.base) return undefined;
+
+        const spellAbility = spellsInfo.base.code || spellsInfo.base.value;
+        if (!spellAbility) return undefined;
+
+        const abilityType = mapBaseStatToAbilityType(spellAbility);
+        const abilityData = data.stats[abilityType];
+
+        if (!abilityData) return undefined;
+
+        const abilityModifier = this.calculateAbilityModifier(abilityData.score);
+
+        return {
+            ability: abilityType,
+            saveDC: 8 + proficiencyBonus + abilityModifier,
+            attackBonus: proficiencyBonus + abilityModifier
+        };
     }
 
     private parseAbilities(data: any, proficiencyBonus: number): Ability[] {
@@ -98,7 +120,6 @@ export class SpecificationsParser {
         return skills.sort((a, b) => a.name.localeCompare(b.name));
     }
 
-
     private buildSkill(skillKey: SkillKey, skillData: any, stats: any, proficiencyBonus: number): Skill {
         const proficiencyLevel = skillData.isProf ?? CONSTANTS.PROFICIENCY_LEVELS.NONE;
         const baseStat = skillData.baseStat ?? CONSTANTS.DEFAULT_BASE_STAT;
@@ -117,7 +138,6 @@ export class SpecificationsParser {
             value: abilityModifier + skillBonus
         };
     }
-
 
     private parseSaves(data: any): SaveProficiency[] {
         const savesData = data.saves;

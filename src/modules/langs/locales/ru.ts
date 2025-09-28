@@ -48,5 +48,10 @@ export const RU_TRANSLATIONS = {
         playerRollTotal: "Итог",
 
         language: 'Язык',
+
+        // Добавляем переводы для заклинательной характеристики
+        spellCasting: 'Заклинательная характеристика',
+        spellSaveDC: 'Спасбросок',
+        spellAttackBonus: 'Заклинательная способность'
     }
 } as const;

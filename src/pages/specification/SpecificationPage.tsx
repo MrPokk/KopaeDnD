@@ -1,11 +1,10 @@
-
-
 import type { Character } from '../../model/json/character-general';
 import { translationService } from '../../modules/langs/translation-service';
 import AbilityCard from './components/AbilityCard';
 import BackButton from './components/BackButton';
 import CharacterHeader from './components/CharacterHeader';
 import ProficiencyBonus from './components/ProficiencyBonus';
+import SpellCastingInfo from './components/SpellCastingInfo';
 
 import '../../styles/SpecificationPage.css';
 
@@ -20,7 +19,7 @@ export default function SpecificationPage({ character }: Props) {
         return <div className="character-display-empty">{translationService.getUIText("unknownCharacter")}</div>;
     }
 
-    const { abilities, skills, proficiencyBonus } = specifications;
+    const { abilities, skills, proficiencyBonus, spellCasting } = specifications;
 
     return (
         <div className="character-display">
@@ -42,6 +41,7 @@ export default function SpecificationPage({ character }: Props) {
                 </div>
             </div>
 
+            <SpellCastingInfo spellCasting={spellCasting} />
             <ProficiencyBonus proficiencyBonus={proficiencyBonus} />
             <BackButton />
         </div>

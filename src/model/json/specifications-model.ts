@@ -62,6 +62,11 @@ export interface Specifications {
     skills: Skill[];
     saves: SaveProficiency[];
     proficiencyBonus: number;
+    spellCasting?: {
+        ability: AbilityType;
+        saveDC: number;
+        attackBonus: number;
+    };
 }
 
 export const mapBaseStatToAbilityType = (baseStat: string): AbilityType => {
